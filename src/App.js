@@ -1,10 +1,17 @@
-import NavbarElement from "./components/Navbar";
+import Navbar from "./components/Navbar";
+import Error from "./components/Error";
 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([{
+    path:"/",
+    element:<Navbar/>,
+    errorElement:<Error/>
+}
+])
 const App = () => {
   return (
-    <>
-      <NavbarElement />
-    </>
+    <RouterProvider router={router}/>
   );
 };
 
