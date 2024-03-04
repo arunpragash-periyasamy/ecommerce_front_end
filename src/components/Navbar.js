@@ -30,16 +30,16 @@ function Navbar() {
             />
             <NavList
               name={"Electronics"}
-              icon={<i class="fa-regular fa-lightbulb"></i>}
+              icon={<i className="fa-regular fa-lightbulb"></i>}
             />
-            <NavList name={"Jewelry"} icon={<i class="fa-solid fa-ring"></i>} />
+            <NavList name={"Jewelry"} icon={<i className="fa-solid fa-ring"></i>} />
             <NavList
               name={"Men's Clothing"}
-              icon={<i class="fa-solid fa-shirt"></i>}
+              icon={<i className="fa-solid fa-shirt"></i>}
             />
             <NavList
               name={"Women's Clothing"}
-              icon={<i class="fa-solid fa-vest-patches"></i>}
+              icon={<i className="fa-solid fa-vest-patches"></i>}
             />
           </ul>
           <ul className="navbar-nav ml-auto">
