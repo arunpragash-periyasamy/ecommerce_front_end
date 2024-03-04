@@ -224,3 +224,8 @@ img {
   .copyright-background{
     background-color: rgba(0, 0, 0, 0.05);
   }
+
+  .carousel-style{
+    height:700px;
+    object-fit: strech;
+  }
