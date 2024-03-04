@@ -1,9 +1,11 @@
-const App = () =>{
-    return (
-        <div>
-            <h1>Hello World!</h1>
-        </div>
-    )
-}
+import NavbarElement from "./components/Navbar";
+
+const App = () => {
+  return (
+    <>
+      <NavbarElement />
+    </>
+  );
+};
 
 export default App;
