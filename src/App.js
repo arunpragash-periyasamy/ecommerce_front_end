@@ -1,17 +1,18 @@
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Error from "./components/Error";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Carousel from "./components/Carousel";
+import Carousel from "./components/Carousel/Carousel";
+import ProductContainer from "./components/Products/ProductContainer";
 
 const router = createBrowserRouter([{
     path:"/",
-    element:<><Navbar/><Carousel/><Footer/></>,
+    element:<><Navbar/><Carousel/><ProductContainer/><Footer/></>,
     errorElement:<Error/>
 },
 {
-    path:"/carousel",
-    element:<Carousel/>,
+    path:"/productContainer",
+    element:<ProductContainer/>,
     errorElement:<Error/>
 }
 ])

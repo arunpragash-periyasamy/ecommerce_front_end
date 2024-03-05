@@ -1,6 +1,8 @@
 import NavList from "./NavList";
-
+import { useContext } from "react";
+import ContextApi from "../../utils/ContextApi";
 function Navbar() {
+  const data = useContext(ContextApi);
   return (
     <nav className="navbar navbar-expand-custom navbar-mainbg rounded-bottom">
       <div className="container-fluid">
