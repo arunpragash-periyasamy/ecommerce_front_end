@@ -1,35 +1,24 @@
 import { useEffect, useState } from "react";
 import { CATEGORY_API } from "../../utils/constants";
-import ProductCard from "./ProductCard";
+import ProductCard from "../Products/ProductCard";
+import { useCapitalizeFirstLetter, useGetBackgroundColor } from "../../utils/customHooks";
 
-const ProductsSection = ({ category }) => {
+const CategorySection = ({ category }) => {
 const [data, setData] = useState([]);
     useEffect(() => {
     getData();
-  }, []);
+  }, [category]);
 
-  const backgroundColors = [
-    "#F5EEE6",
-    "#FFF8E3",
-    "#F3D7CA",
-    "#F9F7C9",
-    "#EAECCC",
-    "#D2E3C8",
-  ];
-  const capitalizeFirstLetter = (str) =>
-    str.charAt(0).toUpperCase() + str.slice(1);
-  const getBackgroundColor = () =>
-    backgroundColors[Math.floor(Math.random() * backgroundColors.length)];
   const getData = async () => {
     const response = await fetch(CATEGORY_API + category);
     const json = await response.json();
     setData(Object.values(json));
   };
   return (
-    <section style={{ backgroundColor: getBackgroundColor() }}>
+    <section style={{ backgroundColor: useGetBackgroundColor() }}>
       <div className="text-center container py-5">
         <h4 className="mt-4 mb-5">
-          <strong>{category ? capitalizeFirstLetter(category) : "Similar Products"}</strong>
+          <strong>{category ? useCapitalizeFirstLetter(category) : "Similar Products"}</strong>
         </h4>
 
         <div className="row product" id={category}>
@@ -40,4 +29,4 @@ const [data, setData] = useState([]);
   );
 };
 
-export default ProductsSection;
+export default CategorySection;

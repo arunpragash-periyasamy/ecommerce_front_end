@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
+import { useCapitalizeFirstLetter, useRemoveSpaces } from "../../utils/customHooks";
 const NavList = ({name, icon, status}) => {
-    function removeSpaces(str) {
-        return str.replace(/\s/g, '');
-      }      
+         const active = (status)? "active" : "";
   return (
-    <li className={"nav-item " + status} id={removeSpaces(name)}>
-        <Link className="nav-link" to={removeSpaces(name)}>
+    <li className={"nav-item " + active} id={useRemoveSpaces(name)}>
+        <Link className="nav-link" to={useRemoveSpaces(name).toLowerCase()}>
             {icon}
-        {name}
+        {useCapitalizeFirstLetter(name)}
         </Link>
     </li>
   );
