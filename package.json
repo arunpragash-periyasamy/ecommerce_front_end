@@ -4,7 +4,7 @@
   "description": "Developing an ecommerce website",
   "scripts": {
     "start": "parcel index.html",
-    "build":"parcel build index.html",
+    "build": "parcel build index.html",
     "test": "testing"
   },
   "keywords": [
@@ -14,12 +14,14 @@
   "author": "Arunpragash A P",
   "license": "ISC",
   "dependencies": {
+    "parcel": "^2.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "parcel": "^2.12.0",
     "react-router-dom": "^6.22.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
     "process": "^0.11.10"
   }
 }
