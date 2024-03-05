@@ -6,7 +6,7 @@ const CarouselItem = ({ url, src, status }) => {
         <img
           src={src}
           className="d-block w-100 carousel-style"
-          alt="Jewelry Banner"
+          alt={url + " Banner"}
         />
       </Link>
     </div>

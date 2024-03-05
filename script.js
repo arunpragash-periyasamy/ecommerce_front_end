@@ -5,6 +5,7 @@ import App from "./src/App";
 import Error from "./src/components/Error";
 import CategorySection from "./src/components/Category/CategorySection";
 import Home from "./src/components/Home/Home";
+import Product from "./src/components/Products/Product";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -18,29 +19,14 @@ const router = createBrowserRouter([
             element: <Home/>
         },
         {
-            path:"/home",
-            element: <Home/>
+            path:"/:category",
+            element: <CategorySection />
         },
         {
-            path:"/electronics",
-            element: <CategorySection category={"electronics"}/>
+            path:"/:category/:id",
+            element: <Product/>
         },
-        {
-            path:"/men'sclothing",
-            element: <CategorySection category={"men's clothing"}/>
-        },
-        {
-            path:"/jewelery",
-            element: <CategorySection category={"jewelery"}/>
-        },
-        {
-            path:"/women'sclothing",
-            element: <CategorySection category={"women's clothing"}/>
-        },
-        {
-            path:"/electronics",
-            element: <CategorySection category={"electronics"}/>
-        },
+
 
     ],
     errorElement: <Error />,

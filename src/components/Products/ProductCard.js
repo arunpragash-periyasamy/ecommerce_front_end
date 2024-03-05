@@ -1,11 +1,11 @@
-import { useTruncateTitle } from "../../utils/customHooks";
+import { useRemoveSpaces, useTruncateTitle } from "../../utils/customHooks";
 import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
 
   return (
     <div className="col-md-4 mb-5">
       <Link
-        to={"/product?id="+product.id}  
+        to={"/"+useRemoveSpaces(product.category)+"/"+product.id}  
         style={{ textDecoration: "none" }}
       >
         <div className="card">

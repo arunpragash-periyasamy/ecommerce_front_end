@@ -15,12 +15,12 @@ const Carousel = () => {
         <div className="carousel-inner rounded">
           <CarouselItem
             src={ElectronicsBanner}
-            url="/Electronics"
+            url="/electronics"
             status="active"
           />
-          <CarouselItem src={JewelryBanner} url="/Jewelry" />
-          <CarouselItem src={MensWearBanner} url="/Men'sWear" />
-          <CarouselItem src={WomensWearBanner} url="/Women'sWear" />
+          <CarouselItem src={JewelryBanner} url="/jewelery" />
+          <CarouselItem src={MensWearBanner} url="/men's clothing" />
+          <CarouselItem src={WomensWearBanner} url="/women's clothing" />
         </div>
         <button
           className="carousel-control-prev"

@@ -1,17 +1,17 @@
 import NavList from "./NavList";
-import { useContext } from "react";
-import ContextApi from "../../utils/ContextApi";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useRemoveSpaces } from "../../utils/customHooks";
 function Navbar() {
-  const data = useContext(ContextApi);
-  const {pathname} = useLocation();
-  const path = useRemoveSpaces(pathname).replace("/","");
+  let { category } = useParams();
+  category = (category === undefined) ? "" :useRemoveSpaces(category);
   return (
     <nav className="navbar navbar-expand-custom navbar-mainbg rounded-bottom">
       <div className="container-fluid">
-        <Link className="navbar-brand navbar-logo mr-auto" to="https://www.guvi.in">
-          GUVI
+        <Link
+          className="navbar-brand navbar-logo mr-auto"
+          to="https://www.guvi.in"
+        >
+          GUVI SHOP
         </Link>
         <button
           className="navbar-toggler"
@@ -29,26 +29,34 @@ function Navbar() {
           id="navbarNav"
         >
           <ul className="navbar-nav me-auto ml-auto">
+            
+            <li className={`nav-item ${((category==='home' || category === '')? 'active' : '')}`} id="home">
+              <Link className="nav-link" to="/">
+                <i className="fa fa-home"></i>
+                Home
+              </Link>
+            </li>
+            <li className={`nav-item ${(category==='electronics' ? 'active' : '')}`} id="electronics">
+              <Link className="nav-link" to="/electronics">
+              <i className="fa-regular fa-lightbulb"></i>
+                Electronics
+              </Link>
+            </li>
+            
             <NavList
-              name={"home"}
-              icon={<i className="fa fa-home"></i>}
-              status={path==='home' || path===''}
+              name={"jewelery"}
+              icon={<i className="fa-solid fa-ring"></i>}
+              status={category === "jewelery"}
             />
-            <NavList
-              name={"electronics"}
-              icon={<i className="fa-regular fa-lightbulb"></i>}
-              status={path==='electronics'}
-            />
-            <NavList name={"jewelery"} icon={<i className="fa-solid fa-ring"></i>} status={path==='jewelery'}/>
             <NavList
               name={"men's Clothing"}
               icon={<i className="fa-solid fa-shirt"></i>}
-              status={path==="men'sclothing"}
-              />
+              status={category === "men'sclothing"}
+            />
             <NavList
               name={"women's Clothing"}
               icon={<i className="fa-solid fa-vest-patches"></i>}
-              status={path==="women'sclothing"}
+              status={category === "women'sclothing"}
             />
           </ul>
           <ul className="navbar-nav ml-auto">

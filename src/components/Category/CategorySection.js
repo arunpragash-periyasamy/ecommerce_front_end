@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { CATEGORY_API } from "../../utils/constants";
 import ProductCard from "../Products/ProductCard";
 import { useCapitalizeFirstLetter, useGetBackgroundColor } from "../../utils/customHooks";
+import { useParams } from "react-router-dom";
 
-const CategorySection = ({ category }) => {
+const CategorySection = ({ category, id }) => {
+  const params = useParams();
+  category = (category === undefined) ? params.category : category;
 const [data, setData] = useState([]);
     useEffect(() => {
     getData();
@@ -22,7 +25,7 @@ const [data, setData] = useState([]);
         </h4>
 
         <div className="row product" id={category}>
-        {data.map((product)=><ProductCard key={product.title} product={product}/>)}
+        {data.map((product)=>(id !== product.id) && <ProductCard key={product.title} product={product}/>)}
         </div>
       </div>
     </section>

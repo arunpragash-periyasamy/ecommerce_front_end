@@ -229,3 +229,7 @@ img {
     height:700px;
     object-fit: strech;
   }
+
+  .navbar-logo{
+    font-weight: 900;
+  }
