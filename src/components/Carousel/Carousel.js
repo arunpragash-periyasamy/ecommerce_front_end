@@ -1,8 +1,7 @@
-import ElectronicsBanner from "../assets/banners/electronics_banner.png";
-import JewelryBanner from "../assets/banners/jwellery_banner.png";
-import MensWearBanner from "../assets/banners/mens_wear_banner.png";
-import WomensWearBanner from "../assets/banners/womens_wear_banner.png";
-import { Link } from "react-router-dom";
+import ElectronicsBanner from "../../assets/banners/electronics_banner.png";
+import JewelryBanner from "../../assets/banners/jwellery_banner.png";
+import MensWearBanner from "../../assets/banners/mens_wear_banner.png";
+import WomensWearBanner from "../../assets/banners/womens_wear_banner.png";
 import CarouselItem from "./CarouselItem";
 const Carousel = () => {
   return (
