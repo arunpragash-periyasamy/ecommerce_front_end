@@ -21,3 +21,5 @@ export const BACKGROUND_COLORS = [
   "#D6C2FF",  // Lavender
 ];
 
+export const SIGNUP_API = 'http://localhost:3000/authentication/signup';
+export const LOGIN_API = 'http://localhost:3000/authentication/login';
