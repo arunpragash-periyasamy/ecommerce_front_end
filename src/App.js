@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import appStore from "./utils/Redux/appStore";
-import axiosInstance from "./utils/axiosInstance";
 
 const App = () => {
   const {pathname} = useLocation();
