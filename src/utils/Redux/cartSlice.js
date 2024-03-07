@@ -14,7 +14,7 @@ const cartSlice = createSlice({
                 state.items[index].quantity = action.payload.quantity;
             }else{
                 state.items.push(action.payload);
-                state.itemId.push(action.payload.productId);
+                state.itemId.push(Number(action.payload.productId));
             }
             localStorage.setItem('cart', JSON.stringify(state.items));
             localStorage.setItem('itemId', JSON.stringify(state.itemId));
@@ -29,9 +29,15 @@ const cartSlice = createSlice({
         clearCart: (state, action)=>{
             state.items = [];
         },
+        updateCart:(state, action)=>{
+            state.items = action.payload;
+            localStorage.setItem('cart', JSON.stringify(state.items));
+            state.itemId = action.payload.map(item=>item.productId)
+            localStorage.setItem('itemId', JSON.stringify(state.itemId));
+        }
     }
 });
 
 
-export const {addItem, removeItem} = cartSlice.actions;
+export const {addItem, removeItem, updateCart} = cartSlice.actions;
 export default cartSlice.reducer;

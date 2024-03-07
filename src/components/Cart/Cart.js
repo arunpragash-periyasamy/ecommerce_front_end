@@ -1,8 +1,14 @@
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import CardDetails from "./CardDetails";
+import ProductGrid from "./ProductGrid";
+import { useEffect, useState } from "react";
 const Cart = () => {
   const cart = useSelector(store=>store.cart.items);
-  console.log(cart);
+  const [items, setItems] = useState([]);
+  useEffect(()=>{
+    setItems(cart)
+  },[cart])
+  const [total, setTotal] = useState(0);
   return (
     <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
@@ -24,12 +30,15 @@ const Cart = () => {
                       <div>
                         <p className="mb-1">Shopping cart</p>
                         <p className="mb-0" id="noOfItems">
-                          You have 0 items in your cart
+                          You have {items.length} items in your cart
                         </p>
                       </div>
                     </div>
+                    {items.map((product, index)=>
+                      <ProductGrid key={product.productId} product={product}  index={index}  setTotal={(total)=>setTotal(prev=>prev+total)}/>
+                    )}
                   </div>
-                  <CardDetails/>
+                  <CardDetails total={total}/>
                 </div>
               </div>
             </div>

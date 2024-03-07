@@ -1,4 +1,4 @@
-const CardDetails = () =>{
+const CardDetails = ({total}) =>{
     return(
         <div className="col-lg-5">
                     <div className="card bg-primary text-white rounded-3">
@@ -97,7 +97,7 @@ const CardDetails = () =>{
                         <div className="d-flex justify-content-between">
                           <p className="mb-2">Subtotal</p>
                           <p className="mb-2" id="subTotal">
-                            $0.00
+                            ${total.toFixed(2)}
                           </p>
                         </div>
 
@@ -116,7 +116,7 @@ const CardDetails = () =>{
                         <div className="d-flex justify-content-between mb-4">
                           <p className="mb-2">Total(Incl. taxes)</p>
                           <p className="mb-2" id="total">
-                            $0.00
+                            ${total.toFixed(2)}
                           </p>
                         </div>
 
@@ -125,7 +125,7 @@ const CardDetails = () =>{
                           className="btn btn-info btn-block btn-lg"
                         >
                           <div className="d-flex justify-content-between">
-                            <span id="checkOutPrice">$0.00</span>
+                            <span id="checkOutPrice">${total.toFixed(2)}</span>
                             <span>
                               Checkout{" "}
                               <i className="fas fa-long-arrow-alt-right ms-2"></i>
