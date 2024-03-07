@@ -30,7 +30,6 @@ const LoginForm = () => {
     } catch (error) {
       console.log(error);
       const message = error?.response?.data?.message;
-      console.log(message);
       if (message === "Invalid password") {
         setValidPassword(false);
       }

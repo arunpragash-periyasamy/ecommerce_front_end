@@ -1,4 +1,22 @@
+import { alertMessage } from "../../utils/customHooks";
+import CardDetailsForm from "./CardDetaisForm";
+import { useState } from "react";
+import axiosInstance from "../../utils/axiosInstance";
+
 const CardDetails = ({total}) =>{
+    const[validForm, setValidForm] = useState(false);
+    const validateForm = async(callback) =>{
+      const valid = await callback();
+      setValidForm(valid);
+    }
+    const handleCheckout = async() =>{
+      if(validForm){
+        const response = await axiosInstance.post("/cart/checkout",);
+        alertMessage("order placed","success")
+      }else{
+        alertMessage("Enter Valid card details","error")
+      }
+    }
     return(
         <div className="col-lg-5">
                     <div className="card bg-primary text-white rounded-3">
@@ -26,72 +44,7 @@ const CardDetails = ({total}) =>{
                         <a href="#!" type="submit" className="text-white">
                           <i className="fab fa-cc-paypal fa-2x"></i>
                         </a>
-
-                        <form className="mt-4">
-                          <div className="form-outline form-white mb-4">
-                            <input
-                              type="text"
-                              id="cardHolderName"
-                              className="form-control form-control-lg"
-                              siez="17"
-                              placeholder="Cardholder's Name"
-                              required
-                            />
-                            <label className="form-label" htmlFor="typeName">
-                              Cardholder's Name
-                            </label>
-                          </div>
-
-                          <div className="form-outline form-white mb-4">
-                            <input
-                              type="text"
-                              id="cardNumber"
-                              className="form-control form-control-lg"
-                              siez="17"
-                              placeholder="1234 5678 9012 3457"
-                              minLength="19"
-                              maxLength="19"
-                              required
-                            />
-                            <label className="form-label">Card Number</label>
-                          </div>
-
-                          <div className="row mb-4">
-                            <div className="col-md-6">
-                              <div className="form-outline form-white">
-                                <input
-                                  type="text"
-                                  id="expiration"
-                                  className="form-control form-control-lg"
-                                  placeholder="MM/YYYY"
-                                  size="7"
-                                  minLength="7"
-                                  maxLength="7"
-                                  required
-                                />
-                                <label className="form-label" htmlFor="typeExp">
-                                  Expiration
-                                </label>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-outline form-white">
-                                <input
-                                  type="password"
-                                  id="cvv"
-                                  className="form-control form-control-lg"
-                                  placeholder="&#9679;&#9679;&#9679;"
-                                  size="1"
-                                  minLength="3"
-                                  maxLength="3"
-                                  required
-                                />
-                                <label className="form-label">Cvv</label>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-
+                        <CardDetailsForm validate={validateForm}/>
                         <hr className="my-4" />
 
                         <div className="d-flex justify-content-between">
@@ -123,6 +76,7 @@ const CardDetails = ({total}) =>{
                         <button
                           type="submit"
                           className="btn btn-info btn-block btn-lg"
+                          onClick={handleCheckout}
                         >
                           <div className="d-flex justify-content-between">
                             <span id="checkOutPrice">${total.toFixed(2)}</span>

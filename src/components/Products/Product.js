@@ -11,9 +11,7 @@ const Product = ({}) => {
   const { id } = useParams();
   const cartItems = useSelector((store) => store.cart.itemId);
   const productQuantity = useSelector((store) => store.cart.items);
-  const index = productQuantity.findIndex(
-    (item) => item.productId === id
-  );
+  const index = productQuantity.findIndex((item) => item.productId === id);
   const [product, setProduct] = useState({});
   const [quantityChanged, setQuantityChanged] = useState(false);
   const [inCart, setInCart] = useState(cartItems.includes(Number(id)));
@@ -24,8 +22,11 @@ const Product = ({}) => {
   const data = {
     productId: id,
     quantity: quantity,
+    image: product?.image,
+    price: product?.price,
+    title: product?.title
   };
-  console.log(cartItems);
+
   useEffect(() => {
     getData();
     if (index !== -1) {
@@ -33,20 +34,17 @@ const Product = ({}) => {
     }
   }, [id]);
 
-  useEffect(()=>{
+  useEffect(() => {
     return async () => {
-        console.log(inCart + " " + quantityChanged + " " +(inCart && quantityChanged))
-        if(inCart){
-            console.log("In cart");
-        }
-        if(quantityChanged){
-            console.log("qunatity changed")
-        }
+      if (inCart) {
+      }
+      if (quantityChanged) {
+      }
       if (inCart && quantityChanged) {
         updateData();
       }
     };
-  },[inCart, quantityChanged])
+  }, [inCart, quantityChanged]);
 
   const getData = async () => {
     const response = await fetch(PRODUCT_API + id);
@@ -58,40 +56,38 @@ const Product = ({}) => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
-    if(inCart){
-        setQuantityChanged(true);
-        console.log("decrement",quantityChanged)
+    if (inCart) {
+      setQuantityChanged(true);
     }
   };
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
-    if(inCart){
-        setQuantityChanged(true);
-        console.log("incart increment", quantityChanged)
+    if (inCart) {
+      setQuantityChanged(true);
     }
   };
   const addToCart = async () => {
     if (inCart) {
       navigate("/cart");
     } else {
+      setInCart(true);
       updateData();
     }
   };
 
-  const updateData = async ()=>{
+  const updateData = async () => {
     dispatch(addItem(data));
     try {
       const response = await axiosInstance.post("/cart/item", data);
-      console.log(response);
     } catch (err) {
-      if(err?.response?.status === 401){
-        alertMessage("Aunthentication expires","error");
+      if (err?.response?.status === 401) {
+        alertMessage("Aunthentication expires", "error");
         localStorage.clear();
         navigate("/login");
       }
     }
-  }
+  };
 
   return (
     <>

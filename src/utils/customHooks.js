@@ -1,5 +1,5 @@
 import { BACKGROUND_COLORS } from "./constants";
-import {toast, Bounce} from 'react-toastify';
+import { toast, Bounce } from "react-toastify";
 import axiosInstance from "./axiosInstance";
 export const useTruncateTitle = (title) => {
   if (title.length > 20) {
@@ -24,32 +24,30 @@ export const useIsValidEmail = (email) => {
 };
 
 export const useIsValidPassword = (password) => {
-    const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-+]).{8,}$/;
-    return pattern.test(password);
-}
+  const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-+]).{8,}$/;
+  return pattern.test(password);
+};
 
-export const alertMessage = (message, type=null)=>{
-const style = {
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  theme: "dark",
-  transition: Bounce,
-  }
-  if(type){
+export const alertMessage = (message, type = null) => {
+  const style = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  };
+  if (type) {
     toast[type](message, style);
-  }else{
-    toast(message,style);
+  } else {
+    toast(message, style);
   }
-}
+};
 
-export const updateAxiosToken = (token)=>{
-    axiosInstance.interceptors.request.use((config)=>{
-        config.headers['Authorization']=`Bearer ${token}`;
-        return config;
-    })
-}
+export const updateAxiosToken = (token) => {
+  axiosInstance.defaults.headers.Authorization = `Bearer ${token}`;
+  console.log(axiosInstance.defaults.headers.Authorization);
+};

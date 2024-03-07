@@ -1,9 +1,10 @@
 import {  useSelector } from "react-redux";
 import CardDetails from "./CardDetails";
-import ProductGrid from "./ProductGrid";
+import CartGrid from "./CartGrid";
 import { useEffect, useState } from "react";
 const Cart = () => {
   const cart = useSelector(store=>store.cart.items);
+  console.log(cart)
   const [items, setItems] = useState([]);
   useEffect(()=>{
     setItems(cart)
@@ -35,7 +36,7 @@ const Cart = () => {
                       </div>
                     </div>
                     {items.map((product, index)=>
-                      <ProductGrid key={product.productId} product={product}  index={index}  setTotal={(total)=>setTotal(prev=>prev+total)}/>
+                      <CartGrid key={product.productId} product={product}  index={index}  setTotal={(total)=>setTotal(prev=>prev+total)}/>
                     )}
                   </div>
                   <CardDetails total={total}/>

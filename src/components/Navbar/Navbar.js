@@ -3,14 +3,14 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { alertMessage, useRemoveSpaces } from "../../utils/customHooks";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUser } from "../../utils/Redux/userSlice";
+import { clearCart } from "../../utils/Redux/cartSlice";
 function Navbar() {
-  const cartItems = useSelector((store)=>store.cart.items);
   const user = useSelector((store)=>store.user.userName);
-  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () =>{
     dispatch(removeUser());
+    dispatch(clearCart())
     localStorage.clear();
     alertMessage("Logout successful", "success")
     navigate("/login");
