@@ -1,13 +1,21 @@
 
-import { Link, useLocation, useParams } from "react-router-dom";
-import { useRemoveSpaces } from "../../utils/customHooks";
-import { UseSelector, useSelector } from "react-redux";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { alertMessage, useRemoveSpaces } from "../../utils/customHooks";
+import { useSelector, useDispatch } from "react-redux";
+import { removeUser } from "../../utils/Redux/userSlice";
 function Navbar() {
   const cartItems = useSelector((store)=>store.cart.items);
-  console.log(cartItems);
+  const user = useSelector((store)=>store.user.userName);
+  console.log(user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () =>{
+    dispatch(removeUser());
+    alertMessage("Logout successful", "success")
+    navigate("/login");
+  }
   let { category } = useParams();
   let {pathname} = useLocation();
-  console.log(category)
   category = (category === undefined) ? "" :useRemoveSpaces(category);
   return (
     <nav className="navbar navbar-expand-custom navbar-mainbg rounded-bottom">
@@ -67,7 +75,7 @@ function Navbar() {
             </li>
           </ul>
           <ul className="navbar-nav ml-auto">
-            <li className={`nav-item`} id="login">
+            {(!user) ? <><li className={`nav-item`} id="login">
               <Link className="nav-link" to="/login">
               <i className="fa-solid fa-right-to-bracket"></i>
                 Login
@@ -78,7 +86,27 @@ function Navbar() {
               <i className="fa-solid fa-user-plus"></i>
                 Signup
               </Link>
+            </li></> :
+            <>
+            <li className={`nav-item`} id="signup">
+              <a className="nav-link">
+                {user}
+              </a>
             </li>
+            <li className={`nav-item`} id="signup">
+              <a className="nav-link">
+                My Orders
+              </a>
+            </li>
+            <li className={`nav-item`} id="signup">
+              <a className="nav-link" onClick={handleLogout}>
+              <i className="fa-solid fa-user-plus"></i>
+                Log out
+              </a>
+            </li>
+            </>}
+            
+            
             <li className={`nav-item ${(pathname==="/cart" ? 'active' : '')}`} id="cart">
               <Link className="nav-link" to="/cart">
               <i className="fa-solid fa-cart-shopping"></i>

@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +16,6 @@ const Authentication = ({page}) => {
 
   return (
     <section className="vh-100" style={{ backgroundColor: "#5161ce" }}>
-      <ToastContainer />
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col col-xl-10">

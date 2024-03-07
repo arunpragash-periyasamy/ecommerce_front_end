@@ -1,32 +1,38 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useIsValidEmail, useIsValidPassword } from "../../utils/customHooks";
-import axios from "axios";
-import { LOGIN_API } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosInstance";
+import { setUser } from "../../utils/Redux/userSlice";
+import { useDispatch } from "react-redux";
+import { alertMessage, updateAxiosToken } from "../../utils/customHooks";
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
   const [vaildPassword, setValidPassword] = useState(true);
-  const handleForm = async(e) => {
+  const handleForm = async (e) => {
     e.preventDefault();
-    try{
-      const response = await axios.post(LOGIN_API,{email:email, password:password});
-      const token = response.data.token;
-      localStorage.setItem("token",token);
+    try {
+      const response = await axiosInstance.post("/authentication/login", {
+        email: email,
+        password: password,
+      });
+      updateAxiosToken(response?.data?.token);
+      dispatch(setUser(response.data));
+      alertMessage("Login successful", "success");
       navigate("/");
-    }catch(error){
+    } catch (error) {
+      console.log(error);
       const message = error?.response?.data?.message;
-      console.log(message)
-      if(message === "Invalid password"){
+      console.log(message);
+      if (message === "Invalid password") {
         setValidPassword(false);
-      }else{
-        alert("User not found");
       }
+      alertMessage(message,"error");
     }
   };
-
 
   return (
     <form>
@@ -53,7 +59,9 @@ const LoginForm = () => {
           className="form-control form-control-lg"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          onBlur={()=>{setValidEmail(useIsValidEmail(email))}}
+          onBlur={() => {
+            setValidEmail(useIsValidEmail(email));
+          }}
         />
         <span id="emailError" className={`error ${validEmail ? "d-none" : ""}`}>
           Invalid Email Id
@@ -70,9 +78,14 @@ const LoginForm = () => {
           className="form-control form-control-lg"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          onBlur={()=>{setValidPassword(useIsValidPassword(password))}}
+          onBlur={() => {
+            setValidPassword(useIsValidPassword(password));
+          }}
         />
-        <span id="passwordError" className={`error ${vaildPassword ? "d-none" : ""}`}>
+        <span
+          id="passwordError"
+          className={`error ${vaildPassword ? "d-none" : ""}`}
+        >
           Incorrect Password
         </span>
       </div>
@@ -87,17 +100,16 @@ const LoginForm = () => {
           Log In
         </button>
       </div>
-        <p
-          className="mb-5 pb-lg-2"
-          style={{ color: "#393f81" }}
-          id="accountContent"
-        >
-          Don't have an account?{" "}
-          <Link to="/signup" style={{ color: "#393f81" }}>
-            Register here
-          </Link>
-        </p>
-      
+      <p
+        className="mb-5 pb-lg-2"
+        style={{ color: "#393f81" }}
+        id="accountContent"
+      >
+        Don't have an account?{" "}
+        <Link to="/signup" style={{ color: "#393f81" }}>
+          Register here
+        </Link>
+      </p>
 
       <Link to="#!" className="small text-muted">
         Terms of use.

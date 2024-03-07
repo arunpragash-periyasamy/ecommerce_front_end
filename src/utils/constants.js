@@ -21,5 +21,5 @@ export const BACKGROUND_COLORS = [
   "#D6C2FF",  // Lavender
 ];
 
-export const SIGNUP_API = 'http://localhost:3000/authentication/signup';
-export const LOGIN_API = 'http://localhost:3000/authentication/login';
+export const BACKEND_API = 'http://localhost:3000';
+export const RENDER_API = 'https://ecommerce-backend-qw7q.onrender.com';

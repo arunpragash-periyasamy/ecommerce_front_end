@@ -2,8 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useIsValidEmail, useIsValidPassword } from "../../utils/customHooks";
 import axios from "axios";
-import { SIGNUP_API } from "../../utils/constants";
-const SignupForm = ({success}) => {
+import { alertMessage } from "../../utils/customHooks";
+import { BACKEND_API } from "../../utils/constants";
+const SignupForm = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,10 +32,12 @@ const SignupForm = ({success}) => {
     await validateForm();
     if (validUserName && validEmail && validPassword && validConfirmPassword) {
       try {
-      const response = await axios.post(SIGNUP_API, {userName:userName, email:email, password:password})
+      const response = await axios.post(BACKEND_API+"/authentication/signup", {userName:userName, email:email, password:password})
+      alertMessage("Sign Up success", "success");
       navigate("/login");
       }catch(error){
-        alert(error?.response?.data?.message)
+        const message = error?.response?.data?.message;
+        alertMessage(message, "error");
       }
     }
   };
@@ -163,3 +166,6 @@ const SignupForm = ({success}) => {
 };
 
 export default SignupForm;
+
+
+// 72951
