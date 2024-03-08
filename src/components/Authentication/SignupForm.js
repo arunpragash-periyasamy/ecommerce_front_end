@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useIsValidEmail, useIsValidPassword } from "../../utils/customHooks";
-import axios from "axios";
+import { useCapitalize, useIsValidEmail, useIsValidPassword, useValidateName } from "../../utils/customHooks";
 import { alertMessage } from "../../utils/customHooks";
-import { BACKEND_API } from "../../utils/constants";
+import axiosInstance from "../../utils/axiosInstance";
 const SignupForm = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
@@ -14,10 +13,7 @@ const SignupForm = () => {
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
   const [validConfirmPassword, setValidConfirmPassword] = useState(true);
-  const validateUsername = () => {
-    const pattern = /^[a-zA-Z]{3,}$/;
-    return pattern.test(userName);
-  };
+  
   const validateConfirmPassword = () =>{
     return password === confirmPassword;
   }
@@ -25,17 +21,18 @@ const SignupForm = () => {
     setValidEmail(useIsValidEmail(email));
     setValidPassword(useIsValidPassword(password));
     setValidConfirmPassword(validateConfirmPassword());
-    setValidUserName(validateUsername());
+    setValidUserName(useValidateName(userName));
   };
   const handleForm = async (e) => {
     e.preventDefault();
     await validateForm();
     if (validUserName && validEmail && validPassword && validConfirmPassword) {
       try {
-      const response = await axios.post(BACKEND_API+"/authentication/signup", {userName:userName, email:email, password:password})
+      const response = await axiosInstance.post("/authentication/signup", {userName:userName, email:email, password:password})
       alertMessage("Sign Up success", "success");
       navigate("/login");
       }catch(error){
+        console.log(error)
         const message = error?.response?.data?.message;
         alertMessage(message, "error");
       }
@@ -65,8 +62,8 @@ const SignupForm = () => {
           id="userName"
           className="form-control form-control-lg"
           value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          onBlur={()=>{setValidUserName(validateUsername())}}
+          onChange={(e) => setUserName(useCapitalize(e.target.value))}
+          onBlur={()=>{setValidUserName(useValidateName(userName))}}
         />
         <span
           id="userNameError"
@@ -84,7 +81,7 @@ const SignupForm = () => {
           id="emailId"
           className="form-control form-control-lg"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value.toLowerCase())}
           onBlur={()=>{setValidEmail(useIsValidEmail(email))}}
         />
         <span id="emailError" className={`error ${validEmail ? "d-none" : ""}`}>

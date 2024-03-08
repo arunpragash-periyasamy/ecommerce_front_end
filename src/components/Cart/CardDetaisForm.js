@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import {
-  alertMessage,
-  useCapitalizeFirstLetter,
-} from "../../utils/customHooks";
-import { UseSelector, useSelector } from "react-redux";
-const CardDetailsForm = ({ validate }) => {
+import { alertMessage, useCapitalize } from "../../utils/customHooks";
+import {  useSelector } from "react-redux";
+import axiosInstance from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
+const CardDetailsForm = ({ validate, setCardData }) => {
+  const navigate = useNavigate();
   const userName = useSelector((store) => store.user.userName);
   const [cardHolderName, setCardHolderName] = useState(userName);
   const [cardNumber, setCardNumber] = useState("");
@@ -14,8 +14,9 @@ const CardDetailsForm = ({ validate }) => {
   const [validCardNumber, setValidCardNumber] = useState(false);
   const [validExpiration, setValidExpiration] = useState(false);
   const [validCVV, setValidCVV] = useState(false);
+  const data = { cardHolderName, cardNumber, expiration, cvv };
   const handleCardHolderName = (e) => {
-    let input = useCapitalizeFirstLetter(e.target.value);
+    let input = useCapitalize(e.target.value);
     input = input.replace(/[^a-zA-Z\s]/g, "");
     setCardHolderName(input);
     setValidUserName(true);
@@ -42,17 +43,51 @@ const CardDetailsForm = ({ validate }) => {
     setcvv(input.substring(0, 3));
   };
 
-  const validateForm = () => {
-    setValidCardHolderName(cardHolderName.length === 0 ? false : true);
-    setValidCVV(cvv.length === 3);
-    setValidCardNumber(cardNumber.length === 19);
-    setValidExpiration(expiration.length === 5);
-    return (validCVV && validCardHolderName && validCardNumber && validExpiration)
+  useEffect(() => {
+    getCardDetails();
+  }, []);
+
+  const getCardDetails = async () => {
+    try {
+      const response = await axiosInstance.get("/cardDetails");
+      details = response?.data?.cardDetails;
+      if (details) {
+        setCardHolderName(details.cardHolderName);
+        setCardNumber(details.cardNumber);
+        setExpiration(details.expiration);
+        setcvv(details.cvv);
+      }
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        alertMessage("Authentication expires", "error");
+        navigate("/login");
+      }
+    }
   };
 
   useEffect(() => {
+    const validateForm = () => {
+      setValidCardHolderName(cardHolderName?.length === 0 ? false : true);
+      setValidCVV(cvv?.length === 3);
+      setValidCardNumber(cardNumber?.length === 19);
+      setValidExpiration(expiration?.length === 5);
+      setCardData(data);
+      return (
+        validCVV && validCardHolderName && validCardNumber && validExpiration
+      );
+    };
+    console.log("Inside useeq");
     validate(validateForm);
-  }, [validate, validateForm]);
+  }, [
+    cardHolderName,
+    cardNumber,
+    expiration,
+    cvv,
+    validCVV,
+    validExpiration,
+    validCardHolderName,
+    validCardNumber,
+  ]);
   return (
     <form className="mt-4">
       <div className="form-outline form-white mb-4">
@@ -93,7 +128,6 @@ const CardDetailsForm = ({ validate }) => {
               onChange={handleExpirationChange}
             />
           </div>
-         
         </div>
         <div className="col-md-6">
           <div className="form-outline form-white">

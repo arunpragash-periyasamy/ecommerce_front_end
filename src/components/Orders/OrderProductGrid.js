@@ -1,27 +1,14 @@
-
 import { useEffect } from "react";
-import { useTruncateTitle } from "../../utils/customHooks";
-import { useDispatch } from "react-redux";
-import { removeItem } from "../../utils/Redux/cartSlice";
 import { Link } from "react-router-dom";
 
-const CartGrid = ({ product, setTotal }) => {
-  const price = product.price*product.quantity;
-  const dispatch = useDispatch();
-  const handleRemoveItem = async () => {
-    try {
-      dispatch(removeItem(product.productId));
-      setTotal(-price);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const OrderProductGrid = ({product,setTotal}) => {
+  console.log(product);
   useEffect(()=>{
-    setTotal(price)
+    setTotal(product.quantity*product.price);
   },[])
   return (
-    <div className="card mb-3">
-      {product && (
+    <div className="row no-gutters mt-3">
+      <div className="card mb-3">
         <div className="card-body">
           <div className="d-flex justify-content-between">
             <Link
@@ -38,28 +25,23 @@ const CartGrid = ({ product, setTotal }) => {
                   />
                 </div>
                 <div className="ms-3">
-                  <h5>{useTruncateTitle(product.title)}</h5>
+                  <h5>{product.title}</h5>
                 </div>
               </div>
             </Link>
             <div className="d-flex flex-row align-items-center">
-              <div style={{ width: "50px" }}>
+              <div style={{ width: "250px" }}>
                 <h5 className="fw-normal mb-0">{product.quantity}</h5>
               </div>
-              <div style={{ width: "80px" }}>
-                <h5 className="mb-0">
-                  ${price.toFixed(2)}
-                </h5>
+              <div style={{ width: "100px" }}>
+                <h5 className="mb-0">${(product.quantity*product.price).toFixed(2)}</h5>
               </div>
             </div>
-            <p style={{ color: "red" }} onClick={handleRemoveItem}>
-              <i className="fas fa-trash-alt"></i>
-            </p>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default CartGrid;
+export default OrderProductGrid;

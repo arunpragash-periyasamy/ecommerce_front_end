@@ -1,7 +1,7 @@
 import axios from "axios";
-import { BACKEND_API, RENDER_API } from "./constants";
+import {  RENDER_API } from "./constants";
 const axiosInstance = axios.create({
-    baseURL: BACKEND_API,
+    baseURL: RENDER_API,
     headers:{
         'Content-Type': 'application/json',
         'Authorization':`Bearer ${localStorage.getItem('token')}`

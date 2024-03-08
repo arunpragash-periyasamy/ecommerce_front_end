@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const cartSlice = createSlice({
     name:'cart',
     initialState:{
-        items: JSON.parse(localStorage.getItem('cart')) || [],
-        itemId: JSON.parse(localStorage.getItem('itemId')) || []
+        items: [],
+        itemId: []
     },
     reducers:{
         addItem: (state, action)=>{
@@ -15,15 +15,11 @@ const cartSlice = createSlice({
                 state.items.push(action.payload);
                 state.itemId.push(Number(action.payload.productId));
             }
-            localStorage.setItem('cart', JSON.stringify(state.items));
-            localStorage.setItem('itemId', JSON.stringify(state.itemId));
         },
         removeItem: (state, action)=>{
             const index = state.items.findIndex(item=>item.productId === action.payload);
             state.items.splice(index, 1);
             state.itemId.splice(index, 1);
-            localStorage.setItem('cart', JSON.stringify(state.items));
-            localStorage.setItem('itemId', JSON.stringify(state.itemId));
         },
         clearCart: (state, action)=>{
             state.items = [];
@@ -31,9 +27,7 @@ const cartSlice = createSlice({
         },
         updateCart:(state, action)=>{
             state.items = action.payload;
-            localStorage.setItem('cart', JSON.stringify(state.items));
             state.itemId = action.payload.map(item=>item.productId)
-            localStorage.setItem('itemId', JSON.stringify(state.itemId));
         }
     }
 });

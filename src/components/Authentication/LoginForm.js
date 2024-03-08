@@ -5,7 +5,6 @@ import axiosInstance from "../../utils/axiosInstance";
 import { setUser } from "../../utils/Redux/userSlice";
 import { useDispatch } from "react-redux";
 import { alertMessage, updateAxiosToken } from "../../utils/customHooks";
-import { updateCart } from "../../utils/Redux/cartSlice";
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,9 +21,6 @@ const LoginForm = () => {
       });
       updateAxiosToken(response?.data?.user?.token);
       dispatch(setUser(response?.data?.user));
-      if (response.data.cart) {
-        dispatch(updateCart(response.data.cart));
-      }
       alertMessage("Login successful", "success");
       navigate("/");
     } catch (error) {
@@ -61,7 +57,7 @@ const LoginForm = () => {
           id="emailId"
           className="form-control form-control-lg"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value.toLowerCase())}
           onBlur={() => {
             setValidEmail(useIsValidEmail(email));
           }}

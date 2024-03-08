@@ -2,14 +2,15 @@ import {  useSelector } from "react-redux";
 import CardDetails from "./CardDetails";
 import CartGrid from "./CartGrid";
 import { useEffect, useState } from "react";
+import EmptyCart from "./EmptyCart";
 const Cart = () => {
-  const cart = useSelector(store=>store.cart.items);
-  console.log(cart)
-  const [items, setItems] = useState([]);
-  useEffect(()=>{
-    setItems(cart)
-  },[cart])
   const [total, setTotal] = useState(0);
+  const [items, setItems] = useState([]);
+  const cart = useSelector(store=>store.cart.items);
+  useEffect(()=>{
+    setItems(cart);
+  },[cart]);
+
   return (
     <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
       <div className="container py-5 h-100">
@@ -38,8 +39,9 @@ const Cart = () => {
                     {items.map((product, index)=>
                       <CartGrid key={product.productId} product={product}  index={index}  setTotal={(total)=>setTotal(prev=>prev+total)}/>
                     )}
+                    {items.length === 0 && <EmptyCart message={"Empty Cart"}/>}
                   </div>
-                  <CardDetails total={total}/>
+                  <CardDetails total={total} cart={cart.length !== 0}/>
                 </div>
               </div>
             </div>

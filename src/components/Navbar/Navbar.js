@@ -1,11 +1,10 @@
 
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { alertMessage, useRemoveSpaces } from "../../utils/customHooks";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeUser } from "../../utils/Redux/userSlice";
 import { clearCart } from "../../utils/Redux/cartSlice";
-function Navbar() {
-  const user = useSelector((store)=>store.user.userName);
+function Navbar({user}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () =>{
@@ -17,7 +16,8 @@ function Navbar() {
   }
   let { category } = useParams();
   let {pathname} = useLocation();
-  category = (category === undefined) ? "" :useRemoveSpaces(category);
+  const path = pathname.split("/")[1];
+ 
   return (
     <nav className="navbar navbar-expand-custom navbar-mainbg rounded-bottom">
       <div className="container-fluid">
@@ -44,31 +44,31 @@ function Navbar() {
         >
           <ul className="navbar-nav me-auto ml-auto">
             
-            <li className={`nav-item ${((category==='home' || category === '' && pathname!=="/cart")? 'active' : '')}`} id="home">
+            <li className={`nav-item ${((path === 'home')? 'active' : '')}`} id="home">
               <Link className="nav-link" to="/">
                 <i className="fa fa-home"></i>
                 Home
               </Link>
             </li>
-            <li className={`nav-item ${(category==='electronics' ? 'active' : '')}`} id="electronics">
+            <li className={`nav-item ${(path==='electronics' ? 'active' : '')}`} id="electronics">
               <Link className="nav-link" to="/electronics">
               <i className="fa-regular fa-lightbulb"></i>
                 Electronics
               </Link>
             </li>
-            <li className={`nav-item ${(category==='jewelery' ? 'active' : '')}`} id="jewelery">
+            <li className={`nav-item ${(path==='jewelery' ? 'active' : '')}`} id="jewelery">
               <Link className="nav-link" to="/jewelery">
               <i className="fa-solid fa-ring"></i>
                 Jewelery
               </Link>
             </li>
-            <li className={`nav-item ${(category==="men'sclothing" ? 'active' : '')}`} id="men'scloting">
+            <li className={`nav-item ${(path==="men'sclothing" ? 'active' : '')}`} id="men'scloting">
               <Link className="nav-link" to="/men's clothing">
               <i className="fa-solid fa-shirt"></i>
                 Men's clothing
               </Link>
             </li>
-            <li className={`nav-item ${(category==="women'sclothing" ? 'active' : '')}`} id="women'scloting">
+            <li className={`nav-item ${(path==="women'sclothing" ? 'active' : '')}`} id="women'scloting">
               <Link className="nav-link" to="/women's clothing">
               <i className="fa-solid fa-vest-patches"></i>
                 Women's clothing
@@ -95,9 +95,9 @@ function Navbar() {
               </a>
             </li>
             <li className={`nav-item`} id="signup">
-              <a className="nav-link">
+              <Link className={`nav-item ${(path==="orders" ? 'active' : '')}`} to={"/orders"}>
                 My Orders
-              </a>
+              </Link>
             </li>
             <li className={`nav-item`} id="signup">
               <a className="nav-link" onClick={handleLogout}>
@@ -108,7 +108,7 @@ function Navbar() {
             </>}
             
             
-            <li className={`nav-item ${(pathname==="/cart" ? 'active' : '')}`} id="cart">
+            <li className={`nav-item ${(path==="cart" || path==='checkout' ? 'active' : '')}`} id="cart">
               <Link className="nav-link" to="/cart">
               <i className="fa-solid fa-cart-shopping"></i>
                 Cart

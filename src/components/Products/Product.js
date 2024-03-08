@@ -18,7 +18,6 @@ const Product = ({}) => {
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const data = {
     productId: id,
     quantity: quantity,
@@ -79,8 +78,10 @@ const Product = ({}) => {
   const updateData = async () => {
     dispatch(addItem(data));
     try {
+      console.log(data);
       const response = await axiosInstance.post("/cart/item", data);
     } catch (err) {
+      console.log(err);
       if (err?.response?.status === 401) {
         alertMessage("Aunthentication expires", "error");
         localStorage.clear();

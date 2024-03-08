@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CATEGORY_API } from "../../utils/constants";
 import ProductCard from "../Products/ProductCard";
-import { useCapitalizeFirstLetter, useGetBackgroundColor } from "../../utils/customHooks";
+import { useCapitalize, useGetBackgroundColor } from "../../utils/customHooks";
 import { useParams } from "react-router-dom";
 
 const CategorySection = ({ category, id }) => {
@@ -21,7 +21,7 @@ const [data, setData] = useState([]);
     <section style={{ backgroundColor: useGetBackgroundColor() }}>
       <div className="text-center container py-5">
         <h4 className="mt-4 mb-5">
-          <strong>{category ? useCapitalizeFirstLetter(category) : "Similar Products"}</strong>
+          <strong>{category ? useCapitalize(category) : "Similar Products"}</strong>
         </h4>
 
         <div className="row product" id={category}>

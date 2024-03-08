@@ -2,19 +2,33 @@ import { alertMessage } from "../../utils/customHooks";
 import CardDetailsForm from "./CardDetaisForm";
 import { useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
-const CardDetails = ({total}) =>{
+const CardDetails = ({total, cart}) =>{
+  const navigate = useNavigate();
     const[validForm, setValidForm] = useState(false);
+    const[cardData, setCardData] = useState({});
     const validateForm = async(callback) =>{
       const valid = await callback();
       setValidForm(valid);
     }
     const handleCheckout = async() =>{
-      if(validForm){
-        const response = await axiosInstance.post("/cart/checkout",);
-        alertMessage("order placed","success")
-      }else{
-        alertMessage("Enter Valid card details","error")
+      try{
+        if(validForm && cart){
+          const response = await axiosInstance.post("/cardDetails",cardData);
+          navigate("/checkout");
+        }else if(!cart){
+          alertMessage("Cart is Empty","error");
+        }
+        else{
+          alertMessage("Enter Valid card details","error")
+        }
+      }catch(err){
+        if(err?.response?.status === 401){
+          alertMessage("Aunthentication expires", "error");
+          localStorage.clear();
+          navigate("/login");
+        }
       }
     }
     return(
@@ -44,7 +58,7 @@ const CardDetails = ({total}) =>{
                         <a href="#!" type="submit" className="text-white">
                           <i className="fab fa-cc-paypal fa-2x"></i>
                         </a>
-                        <CardDetailsForm validate={validateForm}/>
+                        <CardDetailsForm validate={validateForm} setCardData={(data)=>setCardData(data)}/>
                         <hr className="my-4" />
 
                         <div className="d-flex justify-content-between">

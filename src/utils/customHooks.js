@@ -8,7 +8,7 @@ export const useTruncateTitle = (title) => {
   return title;
 };
 
-export const useCapitalizeFirstLetter = (str) =>
+export const useCapitalize = (str) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 export const useGetBackgroundColor = () =>
@@ -47,7 +47,16 @@ export const alertMessage = (message, type = null) => {
   }
 };
 
+export const useValidateName = (name) => {
+  const pattern = /^[a-zA-Z]{3,}$/;
+  return pattern.test(name);
+};
+
+
+export const useValidatePhoneNumber = (phoneNumber) => {
+  const phoneRegex = /^[6-9]\d{9}$/;
+  return phoneRegex.test(phoneNumber);
+}
 export const updateAxiosToken = (token) => {
   axiosInstance.defaults.headers.Authorization = `Bearer ${token}`;
-  console.log(axiosInstance.defaults.headers.Authorization);
 };
