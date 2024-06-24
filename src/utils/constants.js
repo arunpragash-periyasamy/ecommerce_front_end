@@ -23,3 +23,4 @@ export const BACKGROUND_COLORS = [
 
 export const BACKEND_API = 'http://localhost:3000';
 export const RENDER_API = 'https://ecommerce-backend-qw7q.onrender.com';
+export const VERCEL_API = "https://ecommerce-backend-two-eta.vercel.app/";
